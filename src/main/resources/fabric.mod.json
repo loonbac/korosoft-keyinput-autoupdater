@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "keyinput",
+  "version": "${version}",
+  "name": "KeyInput",
+  "description": "Sends key presses to the server via a plugin message channel so server-side scripts can detect any key.",
+  "authors": ["Korosoft"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.korosoft.keyinput.KeyInputClient"]
+  },
+  "mixins": ["keyinput.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

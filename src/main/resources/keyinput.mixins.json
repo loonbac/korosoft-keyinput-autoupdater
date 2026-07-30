@@ -1,0 +1,40 @@
+{
+  "required": true,
+  "package": "com.korosoft.keyinput.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "AnvilScreenMixin",
+    "CameraMixin",
+    "EmfAnimationContextMixin",
+    "EntityRenderStateMixin",
+    "GameOptionsMixin",
+    "GameRendererMixin",
+    "GuiRendererMixin",
+    "HandledScreenMixin",
+    "InGameHudMixin",
+    "InputAccessor",
+    "KeyboardInputMixin",
+    "KeyboardMixin",
+    "LabelCommandRendererCommandsMixin",
+    "LivingEntityRendererMixin",
+    "MenuBackgroundMixin",
+    "MinecraftClientMixin",
+    "MinecraftClientSessionAccessor",
+    "MouseMixin",
+    "MultiplayerScreenMixin",
+    "PlayerEntityRendererMixin",
+    "PlayerListHudMixin",
+    "PressableWidgetMixin",
+    "RecipeBookScreenMixin",
+    "ServerResourcePackLoaderMixin",
+    "SlotAccessor",
+    "SoundOptionsScreenMixin",
+    "SplashOverlayAccessor",
+    "SystemToastAccessor",
+    "TitleScreenMixin",
+    "ToastManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

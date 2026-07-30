@@ -1,0 +1,43 @@
+plugins {
+    id 'fabric-loom' version '1.13.3'
+    id 'java'
+}
+
+version = '1.21.50'
+group = 'com.korosoft'
+
+base {
+    archivesName = 'keyinput'
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.fabricmc.net/' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.21.11"
+    mappings "net.fabricmc:yarn:1.21.11+build.6:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.19.3"
+    // only the networking module is needed (avoids Loom choking on other modules' javadoc)
+    modImplementation fabricApi.module("fabric-networking-api-v1", "0.141.4+1.21.11")
+    // world-space geometry hook for AscendBeam (WorldRenderEvents)
+    modImplementation fabricApi.module("fabric-rendering-v1", "0.141.4+1.21.11")
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}

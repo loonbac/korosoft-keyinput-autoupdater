@@ -1,0 +1,29 @@
+{
+  "mus_cymbal": {
+    "sounds": [
+      {
+        "name": "keyinput:mus_cymbal",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "mus_intronoise": {
+    "sounds": [
+      {
+        "name": "keyinput:mus_intronoise",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "mus_intro": {
+    "sounds": [
+      {
+        "name": "keyinput:mus_intro",
+        "stream": true,
+        "preload": false
+      }
+    ]
+  }
+}
