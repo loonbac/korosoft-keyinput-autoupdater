@@ -918,6 +918,8 @@ public abstract class HandledScreenMixin extends Screen {
         return String.format(java.util.Locale.ROOT, "%." + decimals + "f", value);
     }
 
+
+
     /**
      * The stat panel is keyed by screenId, not tied to this screen instance, so a stale panel must
      * not keep showing if the same screenId is ever reused for something else before a fresh
