@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 public record HelloPayload(int version) implements CustomPayload {
 
     public static final CustomPayload.Id<HelloPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "hello"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "hello"));
 
     /** Used only by the decoder below, which nothing on this network actually runs. */
     private static final int DEFAULT_VERSION = ModVersion.UNKNOWN;

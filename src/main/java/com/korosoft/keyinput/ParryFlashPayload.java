@@ -17,7 +17,7 @@ public record ParryFlashPayload(int flashMillis, int holdPercent, int peakPercen
         implements CustomPayload {
 
     public static final CustomPayload.Id<ParryFlashPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "parry"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "parry"));
 
     /** Used when an older server sends a shorter payload than this client knows how to read. */
     private static final int DEFAULT_FLASH_MILLIS = 320;

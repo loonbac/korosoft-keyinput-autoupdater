@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 public record NameTagConfigPayload(String spec) implements CustomPayload {
 
     public static final CustomPayload.Id<NameTagConfigPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "namecfg"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "namecfg"));
 
     /** Used when the server sends a payload too short to hold even the length prefix, or a
      * length prefix promising more bytes than are actually there. */

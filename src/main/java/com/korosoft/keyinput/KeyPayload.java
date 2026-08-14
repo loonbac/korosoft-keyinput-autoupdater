@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 public record KeyPayload(int keyCode) implements CustomPayload {
 
     public static final CustomPayload.Id<KeyPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "keys"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "keys"));
 
     public static final PacketCodec<RegistryByteBuf, KeyPayload> CODEC =
             PacketCodec.tuple(PacketCodecs.INTEGER, KeyPayload::keyCode, KeyPayload::new);

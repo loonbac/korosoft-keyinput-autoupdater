@@ -1,6 +1,9 @@
 package com.korosoft.keyinput.mixin;
 
 import com.korosoft.keyinput.Cutscene;
+import com.korosoft.keyinput.PingController;
+import com.korosoft.keyinput.PingManager;
+import com.korosoft.keyinput.PingRenderer;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.DrawContext;
@@ -56,6 +59,12 @@ public class GameRendererMixin {
             int argb = (Math.round(alpha * 255.0F) << 24) | 0x00FFFFFF;
             drawContext.fill(0, 0, drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight(), argb);
         }
+
+        // Ping system: fire a queued ping with the current camera, age the live markers and draw
+        // them on top of the finished GUI (before the flush submits it).
+        PingController.pollPingAction(tickCounter.getDynamicDeltaTicks());
+        PingManager.update();
+        PingRenderer.render(drawContext, tickCounter.getDynamicDeltaTicks());
     }
 
     /**

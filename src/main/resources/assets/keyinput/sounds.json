@@ -25,5 +25,14 @@
         "preload": false
       }
     ]
+  },
+  "ping": {
+    "sounds": [
+      {
+        "name": "keyinput:ping",
+        "stream": false,
+        "preload": true
+      }
+    ]
   }
 }

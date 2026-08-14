@@ -42,7 +42,7 @@ public record ModUpdatePayload(
 ) implements CustomPayload {
 
     public static final CustomPayload.Id<ModUpdatePayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "mod_update"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "mod_update"));
 
     /** Hard cap so a malicious server cannot exhaust the client's heap with a fake URL. */
     public static final int MAX_URL_LENGTH = 512;

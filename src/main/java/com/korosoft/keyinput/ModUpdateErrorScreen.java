@@ -20,7 +20,7 @@ public class ModUpdateErrorScreen extends Screen {
     private final String reason;
 
     public ModUpdateErrorScreen(String reason) {
-        super(Text.literal("Actualizacion fallida"));
+        super(Text.literal("Actualización fallida"));
         this.reason = reason == null ? "Error desconocido" : reason;
     }
 
@@ -37,7 +37,7 @@ public class ModUpdateErrorScreen extends Screen {
             y += 12;
         }
         ctx.drawCenteredTextWithShadow(this.textRenderer,
-                Text.literal("Volveras al menu principal. Reconectate para reintentar."),
+                Text.literal("Volverás al menú principal. Vuelve a conectarte para reintentar."),
                 cx, this.height - 50, 0xFFAAAAAA);
         super.render(ctx, mouseX, mouseY, delta);
     }

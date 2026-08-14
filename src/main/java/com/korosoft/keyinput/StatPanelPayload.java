@@ -47,7 +47,7 @@ import java.util.List;
 public record StatPanelPayload(StatPanel.Spec spec) implements CustomPayload {
 
     public static final CustomPayload.Id<StatPanelPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "statpanel"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "statpanel"));
 
     /** Sanity cap, mirrors ScreenLayoutPayload's MAX_SLOTS: a hostile/buggy count must not make us
      * allocate for millions of rows. */

@@ -255,7 +255,7 @@ public class MainMenuScreen extends Screen {
 
     private static String modVersion() {
         return FabricLoader.getInstance()
-                .getModContainer("keyinput")
+                .getModContainer("korosoft-core")
                 .map(container -> container.getMetadata().getVersion().getFriendlyString())
                 .orElse("?");
     }

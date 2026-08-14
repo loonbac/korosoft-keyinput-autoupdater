@@ -57,7 +57,7 @@ public final class KoroAuthClient {
 
     private static final String BASE_URL = "https://" + AUTH_HOST;
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);
-    private static final Logger LOGGER = LoggerFactory.getLogger("keyinput/koroauth");
+    private static final Logger LOGGER = LoggerFactory.getLogger("korosoft-core/koroauth");
     private static final Gson GSON = new Gson();
 
     private static volatile HttpClient httpClient;

@@ -37,7 +37,7 @@ import java.util.List;
 public record ScreenLayoutPayload(ScreenLayout layout) implements CustomPayload {
 
     public static final CustomPayload.Id<ScreenLayoutPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "screen"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "screen"));
 
     /** Sanity cap. A hostile or buggy count must not make us allocate for millions of slots. */
     private static final int MAX_SLOTS = 128;

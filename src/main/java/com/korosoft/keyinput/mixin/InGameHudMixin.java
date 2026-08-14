@@ -2,6 +2,7 @@ package com.korosoft.keyinput.mixin;
 
 import com.korosoft.keyinput.Cutscene;
 import com.korosoft.keyinput.HudAnimator;
+import com.korosoft.keyinput.HudBarsState;
 import com.korosoft.keyinput.HudConfig;
 import com.korosoft.keyinput.ParryFlash;
 import com.korosoft.keyinput.ParrySilhouette;
@@ -58,13 +59,16 @@ public class InGameHudMixin {
      * Full-screen white flash for a landed parry. Injected at TAIL so it covers the whole HUD
      * (hearts, hotbar, chat) instead of being painted over by it.
      */
-    @Inject(method = "render", at = @At("TAIL"))
+        @Inject(method = "render", at = @At("TAIL"))
     private void keyinput$renderParryFlash(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        // Fallback HUD bars for AMD: painted over the finished HUD, before the parry flash so a
+        // landed parry still covers them like everything else (see HudBarsState).
+        HudBarsState.render(context);
+
         float alpha = ParryFlash.getAlpha();
         if (alpha <= ParryFlash.EPSILON) {
             return;
         }
-
         // ARGB: alpha in the high byte, pure white below it
         int argb = (Math.round(alpha * 255.0F) << 24) | 0x00FFFFFF;
         context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), argb);

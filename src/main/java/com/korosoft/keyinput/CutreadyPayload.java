@@ -15,7 +15,7 @@ public record CutreadyPayload() implements CustomPayload {
     public static final CutreadyPayload INSTANCE = new CutreadyPayload();
 
     public static final CustomPayload.Id<CutreadyPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "cutready"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "cutready"));
 
     // Nothing to encode, so PacketCodec.unit() writes zero bytes on the wire. Fine to decode
     // with a VarInt-style codec like KeyPayload's, unlike the S2C payloads: Skript's incoming

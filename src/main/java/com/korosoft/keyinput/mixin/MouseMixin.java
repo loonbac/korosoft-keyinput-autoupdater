@@ -2,6 +2,9 @@ package com.korosoft.keyinput.mixin;
 
 import com.korosoft.keyinput.BootSequence;
 import com.korosoft.keyinput.Cutscene;
+import com.korosoft.keyinput.PingController;
+import com.korosoft.keyinput.ScrollPayload;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.input.MouseInput;
 import org.lwjgl.glfw.GLFW;
@@ -44,6 +47,31 @@ public class MouseMixin {
     private void keyinput$bootAdvance(long window, MouseInput input, int action, CallbackInfo ci) {
         if (BootSequence.isActive() && action == GLFW.GLFW_PRESS && input.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             BootSequence.requestAdvance();
+        }
+        // Ping wheel: middle mouse button queues a ping. Only in-game (no screen open), only on
+        // press (not release), and not while the player is typing in chat.
+        if (action == GLFW.GLFW_PRESS && input.button() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            if (mc.player != null && mc.currentScreen == null) {
+                PingController.queuePingAction();
+            }
+        }
+    }
+
+    /**
+     * Forwards mouse-wheel scrolls to the server on the "korosoft-core:scroll" channel, as
+     * discrete notches (+1 up / -1 down). Only sent while a screen is open (the server uses it
+     * for in-GUI cycling, e.g. the backpack furnace upgrade mode); with no screen up there is
+     * nothing to cycle, so the packet is skipped to keep the channel quiet.
+     */
+    @Inject(method = "onMouseScroll(JDD)V", at = @At("HEAD"))
+    private void keyinput$sendScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
+        if (MinecraftClient.getInstance().currentScreen == null) {
+            return;
+        }
+        int delta = vertical > 0.0 ? 1 : (vertical < 0.0 ? -1 : 0);
+        if (delta != 0) {
+            net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.send(new ScrollPayload(delta));
         }
     }
 }

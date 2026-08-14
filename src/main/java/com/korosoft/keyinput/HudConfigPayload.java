@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 public record HudConfigPayload(int sidebarYOffset, int slideMillis) implements CustomPayload {
 
     public static final CustomPayload.Id<HudConfigPayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "hudcfg"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "hudcfg"));
 
     /** Used when an older server sends a shorter payload than this client knows how to read. */
     private static final int DEFAULT_SIDEBAR_Y_OFFSET = 0;

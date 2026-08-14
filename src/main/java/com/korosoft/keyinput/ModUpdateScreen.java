@@ -13,7 +13,7 @@ import net.minecraft.text.Text;
  *
  * <p>Renders three lines, centered:
  * <ul>
- *   <li>"Actualizando KeyInput" (title)</li>
+ *   <li>"Actualizando Korosoft-Core" (title)</li>
  *   <li>the server-supplied reason ("Soporte para teclas del mouse", etc.)</li>
  *   <li>the live status from {@link ModUpdater#currentStatus()} ("Descargando... 1024 KB", etc.)</li>
  * </ul>
@@ -60,9 +60,20 @@ public class ModUpdateScreen extends Screen {
         String status = ModUpdater.get().currentStatus();
         ctx.drawCenteredTextWithShadow(this.textRenderer, Text.literal(status), cx, cy + 14, 0xFFAAAAAA);
 
+        // Progress bar (download progress from ModUpdater).
+        float prog = ModUpdater.get().currentProgress();
+        int barWidth = Math.min(320, this.width / 2);
+        int bx = cx - barWidth / 2;
+        int by = cy + 26;
+        ctx.fill(bx, by, bx + barWidth, by + 5, 0xFF444444);
+        if (prog > 0f) {
+            int fill = (int) (barWidth * Math.min(1f, prog));
+            ctx.fill(bx, by, bx + fill, by + 5, 0xFF55FF55);
+        }
+
         // Footer hint: "No cierres el juego". Spells out the only failure mode we cannot recover from.
         ctx.drawCenteredTextWithShadow(this.textRenderer,
-                Text.literal("No cierres el juego. La actualizacion terminara automaticamente."),
+                Text.literal("No cierres el juego. La actualización terminará automáticamente."),
                 cx, this.height - 30, 0xFF666666);
     }
 }

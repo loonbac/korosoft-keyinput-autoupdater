@@ -4,10 +4,16 @@ import com.korosoft.keyinput.AscendCamera;
 import com.korosoft.keyinput.Cutscene;
 import com.korosoft.keyinput.ForceBlackState;
 import com.korosoft.keyinput.SelfNameTag;
+import com.korosoft.keyinput.TorsoMatrixCache;
+import com.korosoft.keyinput.TorsoPoseCache;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import org.slf4j.Logger;
@@ -70,7 +76,7 @@ public class LivingEntityRendererMixin {
 
     // TEMPORARY DIAGNOSTIC LOGGING — see keyinput$showLabelForVisibleCustomName below.
     // Remove once the ModelEngine nametag investigation is closed.
-    private static final Logger LOGGER = LoggerFactory.getLogger("keyinput");
+    private static final Logger LOGGER = LoggerFactory.getLogger("korosoft-core");
     @Unique
     private static final java.util.Set<Integer> keyinput$LOGGED_IDS = new java.util.HashSet<>();
     @Unique
@@ -128,6 +134,54 @@ public class LivingEntityRendererMixin {
      * other entity, and never the ORBIT variant, which already frames the player correctly and has
      * no use for this.
      */
+    /**
+     * Records which entity is about to be rendered so the torso matrix capture in
+     * {@code ModelPartTorsoMixin} can attribute each player's matrix to the right entity (correct
+     * even with many players wearing backpacks). Runs on the super (LivingEntityRenderer) path,
+     * which {@code PlayerEntityRenderer#updateRenderState} calls first, so player states are
+     * covered too.
+     */
+    @Inject(method = UPDATE_RENDER_STATE_METHOD, at = @At("TAIL"))
+    private void keyinput$trackCurrentEntity(LivingEntity entity, LivingEntityRenderState state, float tickProgress, CallbackInfo ci) {
+        // Captura Torso DESACTIVADA (2026-08-09): TorsoPoseCache.bind() retenia el
+        // PlayerEntityRenderState de CADA frame de cada jugador (leak de ~450k estados en
+        // sesiones largas, heap del cliente al 99%). El world pass (BackpackWorldRenderer)
+        // esta deshabilitado y BackpackRenderLayer aplica body.applyTransform directo, asi
+        // que estos caches no los lee nadie activo. Reactivar solo junto al world pass.
+    }
+
+    /**
+     * Registers the player's body part so the torso matrix can be captured during the real render.
+     *
+     * <p>Runs at the tail of {@code render(...)} — by then the model parts carry the pose that was
+     * actually drawn. The body part is registered so that {@code ModelPartTorsoMixin} captures the
+     * final body-to-world matrix (EMF animations included) the next time this player renders; the
+     * backpack world pass reads that matrix directly instead of replicating the transform chain by
+     * hand, which is why the previous angle-based capture stayed rigid.
+     *
+     * <p>The model object is the renderer's own instance (one per renderer, shared across players
+     * but mutated one player at a time on the Render thread), so tracking the body part here and
+     * capturing during the next render of the same frame is safe.
+     */
+    @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;"
+            + "Lnet/minecraft/client/util/math/MatrixStack;"
+            + "Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;"
+            + "Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At("HEAD"))
+    private void keyinput$trackTorsoBodyPart(LivingEntityRenderState state,
+                                             MatrixStack matrices,
+                                             net.minecraft.client.render.command.OrderedRenderCommandQueue queue,
+                                             net.minecraft.client.render.state.CameraRenderState cameraState,
+                                             CallbackInfo ci) {
+        if (!(state instanceof PlayerEntityRenderState)) {
+            return;
+        }
+        if (!(((LivingEntityRendererAccessor) (Object) this).keyinput$invokeGetModel()
+                instanceof PlayerEntityModel playerModel)) {
+            return;
+        }
+        // TorsoMatrixCache.setTrackedBodyPart(playerModel.body);  // desactivado: leak (ver arriba)
+    }
+
     @Inject(method = UPDATE_RENDER_STATE_METHOD, at = @At("TAIL"))
     private void keyinput$turnSelfForAscend(LivingEntity entity, LivingEntityRenderState state, float tickProgress, CallbackInfo ci) {
         if (!Cutscene.isActive() || Cutscene.getKind() != Cutscene.Kind.ASCEND) {

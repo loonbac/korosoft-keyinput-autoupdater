@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
  */
 public final class ModVersion {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("keyinput");
+    private static final Logger LOGGER = LoggerFactory.getLogger("korosoft-core");
 
-    private static final String MOD_ID = "keyinput";
+    private static final String MOD_ID = "korosoft-core";
 
     /** Sent when the version cannot be determined. Sorts below every real build, so it fails closed. */
     public static final int UNKNOWN = 0;

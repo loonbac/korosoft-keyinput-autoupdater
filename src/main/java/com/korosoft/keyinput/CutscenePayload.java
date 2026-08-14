@@ -22,7 +22,7 @@ import net.minecraft.util.Identifier;
 public record CutscenePayload(int command, int fadeMillis, int kind) implements CustomPayload {
 
     public static final CustomPayload.Id<CutscenePayload> ID =
-            new CustomPayload.Id<>(Identifier.of("keyinput", "cutscene"));
+            new CustomPayload.Id<>(Identifier.of("korosoft-core", "cutscene"));
 
     public static final int COMMAND_START = 1;
     public static final int COMMAND_END = 2;

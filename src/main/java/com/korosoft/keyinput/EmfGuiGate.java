@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class EmfGuiGate {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("keyinput");
+    private static final Logger LOGGER = LoggerFactory.getLogger("korosoft-core");
 
     private static final String EMF_CONTEXT_CLASS =
             "traben.entity_model_features.models.animation.EMFAnimationEntityContext";

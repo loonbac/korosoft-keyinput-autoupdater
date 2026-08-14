@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class Cutscene {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("keyinput");
+    private static final Logger LOGGER = LoggerFactory.getLogger("korosoft-core");
 
     /** Below this the curtain is treated as fully transparent and is not drawn at all. */
     public static final float EPSILON = 0.001F;

@@ -37,7 +37,7 @@ import java.time.temporal.TemporalAdjusters;
  */
 public final class AuthSession {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("keyinput/koroauth");
+    private static final Logger LOGGER = LoggerFactory.getLogger("korosoft-core/koroauth");
     private static final Gson GSON = new Gson();
     private static final String SESSION_FILE_NAME = "koroauth-session.json";
 
